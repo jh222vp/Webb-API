@@ -1,0 +1,40 @@
+<% if @user.admin %>
+
+<div class = "col-md-5">
+<div class = "panel panel-info">
+  <div class = "panel-heading">
+    <h3>Kontoinformation</h3>
+  </div>
+  <div class = "panel-body">
+    <% @users.each do |user| %>
+    <% if user.admin %>
+<!--Nothing happens here if the user is Admin. Dont need to see any info about the user Admin-->
+<% else %>
+    <li><strong><%= user.name %>: </strong><%= user.key %><br><div class="btn btn-warning" role = "alert"><%= link_to "Delete API Key", user , method: :delete %></div></li>
+<% end %>
+  <% end %>
+<% else %>
+   </div>
+ </div>
+</div>
+
+
+<div class = "col-md-5 col-md-offset-2">
+<div class = "panel panel-info">
+  <div class = "panel-heading">
+    <h3>Kontoinformation</h3>
+  </div>
+  <div class = "panel-body">
+    <strong>API KEY</strong> = <%= @user.key %>
+</div>
+  <div class = "panel-footer">
+    <% if @user.key %>
+        <div class="btn btn-warning" role = "alert"><%= link_to "Delete API Key", @user, method: :delete %></div>
+      <% else %> 
+        <div class="btn btn-info" role = "alert"> <%= link_to "Generate API Key", @user, method: :post %></div>
+      <% end %>
+  </div>
+  </div>
+  </div>
+
+<% end %>

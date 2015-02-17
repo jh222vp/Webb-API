@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RegistreringsApplikation</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <div class="container">
+      
+      <% flash.each do |type, msg| %>
+      <li><%= msg %></li>
+    <% end %>
+      
+      <div class = "jumbotron">
+        <h1>Välkommen 
+        <% if is_logged_in? %>
+      <%= current_user.name %></h1>
+      <div><%= link_to "Log out", logout_path, class: "btn btn-danger" %></div>
+        <% else %>
+        till API Registreringen
+        <% end %>
+        <h4></h4>
+      </div>
+      <%= yield %> 
+    </div>
+</body>
+</html>
