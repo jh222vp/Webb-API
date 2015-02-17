@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150128103509) do
+ActiveRecord::Schema.define(version: 20150217083725) do
+
+  create_table "creators", force: true do |t|
+    t.string   "fname"
+    t.string   "lname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", force: true do |t|
+    t.integer  "position_id"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events_tags", force: true do |t|
+    t.integer "tag_id"
+    t.integer "event_id"
+  end
+
+  create_table "positions", force: true do |t|
+    t.string   "long"
+    t.string   "lat"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", force: true do |t|
+    t.integer  "tag_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name",            limit: 25
