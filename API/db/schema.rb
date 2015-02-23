@@ -11,42 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150218124315) do
+ActiveRecord::Schema.define(version: 20150223130751) do
 
   create_table "creators", force: true do |t|
     t.string   "fname"
     t.string   "lname"
+    t.string   "username"
+    t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "events", force: true do |t|
-    t.integer  "position_id"
-    t.integer  "creator_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "events_tags", force: true do |t|
-    t.integer "tag_id"
-    t.integer "event_id"
   end
 
   create_table "positions", force: true do |t|
-    t.string   "long"
-    t.string   "lat"
+    t.string   "latitude"
+    t.string   "longitude"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "resturants", force: true do |t|
+    t.integer  "position_id"
+    t.integer  "creator_id"
+    t.string   "name",        limit: 25
+    t.string   "description", limit: 254
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "resturants_tags", force: true do |t|
+    t.integer "tag_id"
+    t.integer "resturant_id"
+  end
+
   create_table "tags", force: true do |t|
-    t.integer  "tag_id"
-    t.string   "name"
+    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

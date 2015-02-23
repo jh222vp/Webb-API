@@ -1,6 +1,6 @@
 class Position < ActiveRecord::Base
-    has_many :events
+  has_many :resturants
   
-    validates :long, presence: true
-    validates :lat, presence: true
+    validates :longitude, presence: true
+    validates :latitude, presence: true
 end

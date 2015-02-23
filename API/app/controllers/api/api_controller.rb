@@ -1,16 +1,17 @@
 class Api::ApiController < ApplicationController
   respond_to :json, :xml
+  
   before_action :api_authenticate
 
 
   def index
-      @user = User.all
+    @user = Resturant.all
       respond_with @user 
       end
     
   def show
-      @user = User.find_by_id(params[:id])
-      respond_with @user
+    @resturant = Resturant.find_by_id(params[:id])
+      respond_with @resturant
     end
   
    def api_authenticate
@@ -29,16 +30,24 @@ class Api::ApiController < ApplicationController
    end
   
   def create
-    @user = User.new(name :params[:name, :password])
-    @user.key = SecureRandom.hex
+    resturant = Resturant.new(resturant_params)
+    #tag = Tag.new(tag_params)
+    #position = Position.new(position_params)
+    #resturant.tags << tag
+    
     respond_to do |format|
-      if @user.save
-        format.json { render json: @user, status: :created }
-        format.xml { render xml: @user, status: :created }
+      if resturant.save #&& tag.save && position.save
+        format.json { render json: resturant, status: :created }
+        format.xml { render xml: resturant, status: :created }
       else
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-        format.xml { render xml: @user.errors, status: :unprocessable_entity }
+        format.json { render json: resturant.errors, status: :unprocessable_entity }
+        format.xml { render xml: resturant.errors, status: :unprocessable_entity }
       end
     end   
+  end
+  
+  private
+  def resturant_params
+    params.require(:resturant).permit(:name, :description, :tags_attributes [:category],:positions_attributes[:longitude,:latitude])
   end
 end
