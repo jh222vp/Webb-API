@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217083725) do
+ActiveRecord::Schema.define(version: 20150218124315) do
 
   create_table "creators", force: true do |t|
     t.string   "fname"
@@ -35,6 +35,11 @@ ActiveRecord::Schema.define(version: 20150217083725) do
   create_table "positions", force: true do |t|
     t.string   "long"
     t.string   "lat"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "resturants", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
