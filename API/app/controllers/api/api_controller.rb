@@ -19,10 +19,11 @@ class Api::ApiController < ApplicationController
       end
     end
 
+
     
   def show
     @resturant = Resturant.find_by_id(params[:id])
-    respond_with @resturant.to_json(:include => :position)
+    respond_with @resturant
     end
   
    def api_authenticate
