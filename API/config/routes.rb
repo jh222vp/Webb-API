@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   
  namespace :api do
    resources :api
+   resources :tag
+   resources :position
  end
   
    #get '/api' => 'position#index'

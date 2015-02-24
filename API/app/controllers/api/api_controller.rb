@@ -1,17 +1,31 @@
 class Api::ApiController < ApplicationController
+  include ErrorsHelper
+  protect_from_forgery with: :null_session
   respond_to :json, :xml
-  
   before_action :api_authenticate
 
-
-  def index
-    @user = Resturant.all
-      respond_with @user 
+  
+  
+   def index
+      @resturant = Resturant.all.order(created_at: :desc)
+        if offset_params.present?
+        @resturant = Resturant.limit(@limit).offset(@offset).order(created_at: :desc)
+          else if params[:query].present?
+          @resturant = Resturant.where("description")
+          end
+        end
+      if @resturant.empty?
+        @error = ErrorMessage.new("No resturants could be find")
+        respond_with @error, status: :ok
+      else
+        respond_with @resturant.to_json(:include => :position)
       end
+    end
+
     
   def show
     @resturant = Resturant.find_by_id(params[:id])
-      respond_with @resturant
+    respond_with @resturant.to_json(:include => :position)
     end
   
    def api_authenticate
@@ -19,8 +33,7 @@ class Api::ApiController < ApplicationController
       # Take the last part in The header (ignore Bearer)
       auth_header = request.headers['Authorization'].split(' ').last
         
-        #key = User.find_by_key('375600670e508cc1460b8896cb4fd1fd') 
-        key = User.find_by_key(auth_header)
+      key = User.find_by_key(auth_header)
       if !key
       render json: { error: 'The provided token wasn´t correct' }, status: :bad_request
       end
@@ -31,12 +44,9 @@ class Api::ApiController < ApplicationController
   
   def create
     resturant = Resturant.new(resturant_params)
-    #tag = Tag.new(tag_params)
-    #position = Position.new(position_params)
-    #resturant.tags << tag
-    
+
     respond_to do |format|
-      if resturant.save #&& tag.save && position.save
+      if resturant.save
         format.json { render json: resturant, status: :created }
         format.xml { render xml: resturant, status: :created }
       else
@@ -45,15 +55,28 @@ class Api::ApiController < ApplicationController
       end
     end   
   end
-  
-  private
-  def resturant_params
-    params.require(:resturant)
-      .permit(:name,
-        :description,
-        tags_attributes: [:category],
-        position_attributes:[:longitude,:latitude])
-  end
+
+#HÄR UPDATERAR VI
+def update
+  resturant = Resturant.find(params[:id])
+  new_resturant = resturant.update(resturant_params)
+  render json: resturant, status: :ok
+  rescue ActiveRecord::RecordNotFound
+  displayError("We could not find the required resturant. Check the ID!")
 end
 
-
+#HÄR TAR VI BORT
+def destroy
+  @resturant = Resturant.find(params[:id])
+  @resturant.destroy
+  render json: 'The resturant was deleted', status: :ok
+  rescue ActiveRecord::RecordNotFound
+  displayError("We could not find the required resturant. Check the ID!")
+  render json: error, status: :not_found
+end
+  
+private
+  def resturant_params
+    params.require(:resturant).permit(:name, :description, tags_attributes:[:category], position_attributes:[:longitude, :latitude])
+  end
+end
