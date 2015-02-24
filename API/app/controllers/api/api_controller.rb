@@ -51,24 +51,9 @@ class Api::ApiController < ApplicationController
     params.require(:resturant)
       .permit(:name,
         :description,
-        :tag_attribute [:category],
-        :positions_attributes[:longitude,:latitude])
+        tags_attributes: [:category],
+        position_attributes:[:longitude,:latitude])
   end
 end
 
 
-{
- 	"resturant": {
-		"name": "Tobias Resturang",
-		"description": "Bästa kocken",
-		"tags_attributes":[
-			{
-				"category": "finrestaurang"
-			}		
-		],
-		"positions_attributes":{
-			"longitude": "15.6888",
-			"latitude": "50.8799"
-		}
-	}
-}
