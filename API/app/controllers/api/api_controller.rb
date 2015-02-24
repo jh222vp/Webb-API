@@ -8,17 +8,14 @@ class Api::ApiController < ApplicationController
   
    def index
       @resturant = Resturant.all.order(created_at: :desc)
-        if offset_params.present?
+      if offset_params.present?
         @resturant = Resturant.limit(@limit).offset(@offset).order(created_at: :desc)
-          else if params[:query].present?
-          @resturant = Resturant.where("description")
-          end
-        end
+      end
       if @resturant.empty?
         @error = ErrorMessage.new("No resturants could be find")
         respond_with @error, status: :ok
       else
-        respond_with @resturant.to_json(:include => :position)
+        respond_with @resturant
       end
     end
 

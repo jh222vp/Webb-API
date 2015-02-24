@@ -29,7 +29,7 @@ class Api::TagController < ApplicationController
   #HÄR UPDATERAR VI
   def update
     tag = Tag.find(params[:id])
-    tag.update(tag_params)
+    tag.update!(tag_params)
     render json: tag, status: :ok
     rescue ActiveRecord::RecordNotFound
     displayError("We could not find the required Tag. Check the ID!")
@@ -38,7 +38,7 @@ class Api::TagController < ApplicationController
   
   private
   def tag_params
-    params.permit(tags: [:category])
+    params.permit(:category)
   end
   
 end

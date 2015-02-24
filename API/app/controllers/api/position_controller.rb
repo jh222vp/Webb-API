@@ -16,10 +16,10 @@ class Api::PositionController < ApplicationController
   #HÄR UPDATERAR VI
   def update
     position = Tag.find(params[:id])
-    new_tag = tag.update(tag_params)
-    render json: tag, status: :ok
+    position.update(tag_params)
+    render json: position, status: :ok
     rescue ActiveRecord::RecordNotFound
-    error = ErrorMessage.new("We could not find the required resturant. Check the ID!")
+    error = ErrorMessage.new("We could not find the required positions. Check the ID!")
     render json: error, status: :not_found
   end
   
@@ -36,4 +36,9 @@ class Api::PositionController < ApplicationController
       render json: { error: 'Need to include the Authorization header' }, status: :forbidden # The header isn´t present
       end
    end
+  
+  private
+  def tag_params
+    params.permit(:category)
+  end
 end
