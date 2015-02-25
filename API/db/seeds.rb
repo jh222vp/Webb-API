@@ -9,3 +9,21 @@ User.create!(name:  "Admin",
   password:              "password",
   password_confirmation: "password",
              admin: true)
+
+Creator.create!(username:  "T-Man",
+  fname:                 "Tobias",
+  lname:                 "Hanson"
+  password:              "123456",
+)
+
+Creator.create!(username:  "S-Girl",
+  fname:                 "Sandra",
+  lname:                 "Holst"
+  password:              "qwerty",
+)
+
+Creator.create!(username:  "E-Boy",
+  fname:                 "Erik",
+  lname:                 "Ledstrom"
+  password:              "ilovecandy",
+)

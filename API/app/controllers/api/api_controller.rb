@@ -73,8 +73,44 @@ def destroy
   render json: error, status: :not_found
 end
   
+  # This method is using the geocoder and helps with searching near a specific position
+  def nearby
+    # Check the parameters
+    if params[:longitude].present? && params[:latitude].present?
+    # using the parameters and offset/limit
+    t = Position.near([params[:latitude].to_f, params[:longitude].to_f], 20).limit(@limit).offset(@offset)
+    respond_with t, status: :ok
+    else
+    displayError("We could not find any resources.")
+    render json: error, status: :bad_request # just json in this example
+    end
+  end
+  
 private
   def resturant_params
     params.require(:resturant).permit(:name, :description, tags_attributes:[:category], position_attributes:[:longitude, :latitude])
   end
 end
+
+
+{
+ 	"resturant": {
+		"name": "Tobias Resturang",
+		"description": "Bästa kocken",
+		"tags_attributes":[
+			{
+				"category": "finrestaurang"
+			}		
+		],
+		"position_attributes":{
+			"longitude": "15.6888",
+			"latitude": "50.8799"
+		}
+	}
+}
+
+UpdateTAGS
+		
+{
+"category": "PIZZA"
+}	
