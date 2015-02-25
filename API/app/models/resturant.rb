@@ -24,8 +24,6 @@ class Resturant < ActiveRecord::Base
   end
   
   def self_link
-    # the configuration is set i config/enviroment/{development|productions}.rb
-    # include Rails.application.routes.url_helpers - MVC?
    "#{Rails.configuration.baseurl}#{api_api_path(self)}" 
   end
 
@@ -36,7 +34,5 @@ class Resturant < ActiveRecord::Base
  def position_link
    "#{Rails.configuration.baseurl}#{api_position_path(self.tags[0])}" 
   end
-
-
 end
 

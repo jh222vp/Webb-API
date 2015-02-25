@@ -3,7 +3,7 @@ class Api::ApiController < ApplicationController
   include ApiControllerHelper
   protect_from_forgery with: :null_session
   respond_to :json, :xml
-  before_action :api_key
+  before_action :api_key, only: [:create, :update, :destroy]
   before_action :api_authenticate, only: [:index, :show, :nearby]
 
    def index

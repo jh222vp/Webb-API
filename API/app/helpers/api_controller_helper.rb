@@ -2,10 +2,6 @@ module ApiControllerHelper
   ####### API auth stuff with JWT
   # This is a callback which actiosn will call if protected
   
-  
-  
-  
-  
   # This is a callback which actiosn will call if protected
   def api_key
     if request.headers["authToken"].present?

@@ -1,34 +1,34 @@
-class Api::PositionController < ApplicationController
+class Api::CreatorController < ApplicationController
+  include ErrorsHelper
+  include ApiControllerHelper
   protect_from_forgery with: :null_session
   respond_to :json, :xml
+  
   before_action :api_key, only: [:create, :update, :destroy]
   before_action :api_authenticate, only: [:index, :show, :nearby]
   
   def index
-    @position = Position.all.order(created_at: :desc)
-    respond_with @position 
-  end
-  
+    @creator = Creator.all.order(created_at: :desc)
+      if offset_params.present?
+        @creator = Creator.limit(@limit).offset(@offset).order(created_at: :desc)
+      end
+      if @creator.empty?
+        displayError("We could not find the required creator. Check the ID!")
+        respond_with displayError, status: :ok
+      else
+        respond_with @creator
+      end
+    end
+
   def show
-    @position = Position.find_by_id(params[:id])
-    respond_with @position
-  end
+    @creator = Creator.find_by_id(params[:id])
+    respond_with @creator
+    end
   
-  #HÄR UPDATERAR VI
-  def update
-    position = Tag.find(params[:id])
-    position.update(tag_params)
-    render json: position, status: :ok
-    rescue ActiveRecord::RecordNotFound
-    error = ErrorMessage.new("We could not find the required positions. Check the ID!")
-    render json: error, status: :not_found
-  end
-  
-  def api_authenticate
+   def api_authenticate
       if request.headers["Authorization"].present?
       # Take the last part in The header (ignore Bearer)
       auth_header = request.headers['Authorization'].split(' ').last
-        
       key = User.find_by_key(auth_header)
       if !key
       render json: { error: 'The provided token wasn´t correct' }, status: :bad_request
@@ -38,8 +38,4 @@ class Api::PositionController < ApplicationController
       end
    end
   
-  private
-  def tag_params
-    params.permit(:category)
-  end
 end

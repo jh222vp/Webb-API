@@ -12,6 +12,7 @@ Rails.application.routes.draw do
    resources :api
    resources :tag
    resources :position
+   resources :creator
     post '/auth' => 'api#api_auth'
  end
   
