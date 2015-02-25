@@ -11,7 +11,7 @@ class Resturant < ActiveRecord::Base
     options = {
     # declare what we want to show
       only: [:name, :description],
-      include: {tags: {only: [:category]}, position: {only: [:latitude, :longitude]}},
+      include: {tags: {only: [:category]}, position: {only: [:latitude, :longitude]}, creator: {only: [:username, :fname, :lname]} },
     }.update(options)
     json = super(options)
     json['url'] = self_link
