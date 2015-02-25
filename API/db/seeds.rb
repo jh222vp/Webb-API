@@ -12,18 +12,18 @@ User.create!(name:  "Admin",
 
 Creator.create!(username:  "T-Man",
   fname:                 "Tobias",
-  lname:                 "Hanson"
+  lname:                 "Hanson",
   password:              "123456",
 )
 
 Creator.create!(username:  "S-Girl",
   fname:                 "Sandra",
-  lname:                 "Holst"
+  lname:                 "Holst",
   password:              "qwerty",
 )
 
 Creator.create!(username:  "E-Boy",
   fname:                 "Erik",
-  lname:                 "Ledstrom"
+  lname:                 "Ledstrom",
   password:              "ilovecandy",
 )

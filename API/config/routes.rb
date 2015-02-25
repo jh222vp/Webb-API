@@ -12,8 +12,12 @@ Rails.application.routes.draw do
    resources :api
    resources :tag
    resources :position
+    post '/auth' => 'api#api_auth'
  end
   
-   #get '/api' => 'position#index'
+  get 'api/api/nearby' => 'api/api#nearby'
+  
+   # This route is for JWT login
+
 
 end
