@@ -8,16 +8,24 @@ class Api::ApiController < ApplicationController
 
    def index
       @resturant = Resturant.all.order(created_at: :desc)
+      
+     if params[:query].present?
+        @resturant = Resturant.where("description LIKE ?", "%#{params[:query]}%")
+      end
+  
       if offset_params.present?
         @resturant = Resturant.limit(@limit).offset(@offset).order(created_at: :desc)
       end
+  
       if @resturant.empty?
         displayError("We could not find the required resturant. Check the ID!")
         respond_with displayError, status: :ok
       else
         respond_with @resturant
       end
+  
     end
+  
 
   def show
     @resturant = Resturant.find_by_id(params[:id])
@@ -69,20 +77,21 @@ def destroy
   render json: error, status: :not_found
 end
   
+
   # This method is using the geocoder and helps with searching near a specific position
   def nearby
     # Check the parameters
     if params[:long].present? && params[:lat].present?
     # using the parameters and offset/limit
     t = Position.near([params[:latitude].to_f, params[:longitude].to_f], 1000).limit(@limit).offset(@offset)
-    respond_with t.map(&:resturant), status: :ok
-    
+      respond_with t.flat_map(&:resturants), status: :ok
     else
     displayError("We could not find any resources.")
     render json: error, status: :bad_request # just json in this example
     end
   end
   
+
   ## This is called from a client who wish to authenticate and get a JSON Web Token back
   def api_auth
     creator = Creator.find_by(username: request.headers[:username])
