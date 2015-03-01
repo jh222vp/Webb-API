@@ -76,6 +76,8 @@ def destroy
   displayError("We could not find the required resturant. Check the ID!")
   render json: error, status: :not_found
 end
+
+
   
   # This method is using the geocoder and helps with searching near a specific position
   def nearby
@@ -86,7 +88,7 @@ end
       respond_with t.flat_map(&:resturants), status: :ok
     else
     displayError("We could not find any resources.")
-    render json: error, status: :bad_request # just json in this example
+    render json: error, status: :bad_request
     end
   end
 
@@ -105,68 +107,3 @@ private
     params.require(:resturant).permit(:name, :description, tags_attributes:[:category], position_attributes:[:longitude, :latitude])
   end
 end
-
-
-#Limit och Offset
-
-http://forceful-wave-72-188391.euw1.nitrousbox.com/api/api?offset=2&limit=3
-
-#SearchQuery
-
-http://forceful-wave-72-188391.euw1.nitrousbox.com/api/api?query=Sl
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{
- 	"resturant": {
-		"name": "Tobias Resturang",
-		"description": "Bästa kocken",
-		"tags_attributes":[
-			{
-				"category": "finrestaurang"
-			}		
-		],
-		"position_attributes":{
-			"longitude": "15.6888",
-			"latitude": "50.8799"
-		}
-	}
-}
-
-UpdateTAGS
-		
-{
-"category": "PIZZA"
-}	
-
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0MjQ4NjYyMzR9._qXdii3MMltLIL_bUPYUOJBXqz-wbQwIAfGGZdkHmenn_1r53RJj57srDQmbU-zuvVgH241tvqwKqQx7LzMpVg
-
